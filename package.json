@@ -1,0 +1,26 @@
+{
+  "name": "public-transportation-app",
+  "version": "1.0.0",
+  "description": "An application that allows users to select a departure and arrival train station, and see a list of trains, times, and durations",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elmasria/public-transportation-app.git"
+  },
+  "keywords": [
+    "transportation",
+    "Udacity"
+  ],
+  "author": "Ahmad El Masri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elmasria/public-transportation-app/issues"
+  },
+  "homepage": "https://github.com/elmasria/public-transportation-app#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
