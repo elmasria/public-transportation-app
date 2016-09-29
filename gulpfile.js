@@ -20,29 +20,46 @@ var paths = {
 	source :'./src/'
 };
 
-paths.angular = paths.node_module + 'angular/angular.js';
-paths.angularRoute = paths.node_module + 'angular-route/angular-route.js';
-paths.angularCookies = paths.node_module + 'angular-cookies/angular-cookies.js';
-paths.angularAnimate = paths.node_module + 'angular-animate/angular-animate.js';
-
-paths.jquery = paths.node_module + 'jquery/dist/jquery.js';
-
-paths.bootstrapCSS = paths.node_module + 'bootstrap/dist/css/bootstrap.css';
-paths.bootstrapJS = paths.node_module + 'bootstrap/dist/js/bootstrap.js';
-paths.bootstrapFonts = paths.node_module + 'bootstrap/dist/fonts/*';
-
-
-paths.mainHtml = paths.source  +'index.html';
-
-paths.manifest = paths.source + 'manifest.json';
-paths.favicon = paths.source + 'images/favicon.ico';
-paths.images = paths.source + "images/**/*";
-
 paths.templatesDest = paths.webroot + 'templates';
 paths.jsDest = paths.webroot + 'js';
 paths.cssDest = paths.webroot + 'css';
 paths.fontDest = paths.cssDest + '/fonts';
 paths.imagDest = paths.webroot + 'images';
+
+/// Vendors
+
+// Angular
+paths.angular = paths.node_module + 'angular/angular.js';
+paths.angularRoute = paths.node_module + 'angular-route/angular-route.js';
+paths.angularCookies = paths.node_module + 'angular-cookies/angular-cookies.js';
+paths.angularAnimate = paths.node_module + 'angular-animate/angular-animate.js';
+
+// JQuery
+paths.jquery = paths.node_module + 'jquery/dist/jquery.js';
+
+// Bootstrap
+paths.bootstrapCSS = paths.node_module + 'bootstrap/dist/css/bootstrap.css';
+paths.bootstrapJS = paths.node_module + 'bootstrap/dist/js/bootstrap.js';
+paths.bootstrapFonts = paths.node_module + 'bootstrap/dist/fonts/*';
+
+
+/// Project
+
+// JS
+paths.sw = paths.source + 'js/sw.js';
+paths.app = paths.source + 'js/app.js';
+paths.appConfig = paths.source + 'js/app.config.js';
+paths.appRoutes = paths.source + 'js/app.routes.js';
+paths.angularConstants = paths.source + 'js/services/constants.js';
+paths.angularMainCtrl = paths.source + 'js/controllers/main.js';
+
+// HTML
+paths.mainHtml = paths.source  +'index.html';
+
+// Static
+paths.manifest = paths.source + 'manifest.json';
+paths.favicon = paths.source + 'images/favicon.ico';
+paths.images = paths.source + "images/**/*";
 
 
 gulp.task('default',['copy:static', 'copy:images', 'minify:html', 'min:css', 'min:js', 'server']);
@@ -50,7 +67,7 @@ gulp.task('default',['copy:static', 'copy:images', 'minify:html', 'min:css', 'mi
 gulp.task('server', function () {
 	browserSync.init({
 		server: {
-			baseDir: paths.webroot
+			baseDir: './'
 		},
 		port: 2109,
 		ui: {
@@ -90,7 +107,12 @@ gulp.task('min:js', function() {
 		paths.angular,
 		paths.angularRoute,
 		paths.angularCookies,
-		paths.angularAnimate ])
+		paths.angularAnimate,
+		paths.app,
+		paths.appConfig,
+		paths.appRoutes,
+		paths.angularConstants,
+		paths.angularMainCtrl ])
 	.pipe(concat(paths.jsDest +'/app.min.js'))
 	//.pipe(strip())
 	//.pipe(uglify())
