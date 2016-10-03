@@ -1,8 +1,10 @@
 var gulp = require('gulp')
 	uglify = require('gulp-uglify'),
+	merge = require('merge-stream');
 	strip = require('gulp-strip-comments'),
 	htmlmin = require('gulp-htmlmin'),
 	removeHtmlComments = require('gulp-remove-html-comments'),
+	sass = require('gulp-sass');
 	stripCssComments = require('gulp-strip-css-comments'),
 	cleanCSS = require('gulp-clean-css'),
 	cssmin = require('gulp-cssmin'),
@@ -50,19 +52,29 @@ paths.sw = paths.source + 'js/sw.js';
 paths.app = paths.source + 'js/app.js';
 paths.appConfig = paths.source + 'js/app.config.js';
 paths.appRoutes = paths.source + 'js/app.routes.js';
-paths.angularConstants = paths.source + 'js/services/constants.js';
+
+// Controllers
 paths.angularMainCtrl = paths.source + 'js/controllers/main.js';
+
+// Services
+paths.angularConstants = paths.source + 'js/services/constants.js';
+paths.angularToastService = paths.source + 'js/services/toast.js';
+
+// Directives
+
 
 // HTML
 paths.mainHtml = paths.source  +'index.html';
 
+
 // Static
 paths.manifest = paths.source + 'manifest.json';
 paths.favicon = paths.source + 'images/favicon.ico';
-paths.images = paths.source + "images/**/*";
+paths.images = paths.source + 'images/**/*';
+paths.scss = paths.source + 'scss/**/*.scss'
 
 
-gulp.task('default',['copy:static', 'copy:images', 'minify:html', 'min:css', 'min:js', 'server']);
+gulp.task('default',['copy:static', 'copy:images', 'minify:html','minify:html-templates', 'min:css', 'min:js', 'watch', 'server']);
 
 gulp.task('server', function () {
 	browserSync.init({
@@ -74,8 +86,13 @@ gulp.task('server', function () {
 			port: 2100
 		}
 	});
+});
 
+gulp.task('watch', function () {
 	gulp.watch(paths.mainHtml, ['minify:html']);
+	gulp.watch(paths.angularToastService, ['min:js']);
+	gulp.watch(paths.angularMainCtrl, ['min:js']);
+	gulp.watch(paths.scss, ['min:css']);
 });
 
 gulp.task('clean', function () {
@@ -89,15 +106,23 @@ gulp.task('copy:static', function(){
 });
 
 gulp.task('copy:images', function () {
-    return gulp.src([paths.images])
+	return gulp.src([paths.images])
 	.pipe(gulp.dest(paths.imagDest));
 });
 
 gulp.task('minify:html', function() {
-	return gulp.src(paths.mainHtml)
+	return gulp.src([paths.mainHtml])
 	.pipe(removeHtmlComments())
 	.pipe(htmlmin({collapseWhitespace: true}))
 	.pipe(gulp.dest(paths.webroot))
+	.pipe(reload({stream: true}));
+});
+
+gulp.task('minify:html-templates', function() {
+	return gulp.src([])
+	.pipe(removeHtmlComments())
+	.pipe(htmlmin({collapseWhitespace: true}))
+	.pipe(gulp.dest(paths.templatesDest))
 	.pipe(reload({stream: true}));
 });
 
@@ -112,7 +137,8 @@ gulp.task('min:js', function() {
 		paths.appConfig,
 		paths.appRoutes,
 		paths.angularConstants,
-		paths.angularMainCtrl ])
+		paths.angularMainCtrl,
+		paths.angularToastService ])
 	.pipe(concat(paths.jsDest +'/app.min.js'))
 	//.pipe(strip())
 	//.pipe(uglify())
@@ -121,11 +147,28 @@ gulp.task('min:js', function() {
 });
 
 gulp.task('min:css', function () {
-    return gulp.src([paths.bootstrapCSS])
-	.pipe(concat(paths.cssDest + '/app.min.css'))
-	//.pipe(stripCssComments({ preserve: false }))
-	//.pipe(cleanCSS({ compatibility: 'ie8' }))
-	//.pipe(cssmin())
-	.pipe(gulp.dest('.'));
+	var cssStream = gulp.src([paths.bootstrapCSS])
+	.pipe(concat('css-files.css'))
+	.pipe(stripCssComments({ preserve: false }))
+	.pipe(cleanCSS({ compatibility: 'ie8' })),
+
+	scssStream = gulp.src([paths.scss])
+	.pipe(concat('css-files.css'))
+	.pipe(sass({
+		outputStyle: 'compressed'
+	}).on('error', sass.logError))
+	.pipe(autoprefixer({
+		browser: ['last 2 versions']
+	}))
+	.pipe(stripCssComments({ preserve: false }))
+	.pipe(cleanCSS({ compatibility: 'ie8' })),
+
+	mergedStream = merge(cssStream, scssStream)
+		.pipe(concat(paths.cssDest + '/app.min.css'))
+		//.pipe(cssmin())
+		.pipe(gulp.dest('.'));
+
+
+	return mergedStream;
 });
 
