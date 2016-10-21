@@ -13,28 +13,9 @@
     margin-bottom: 0;
 }
 
-.navbar-default.featured .navbar-nav>li>a {
-	color: #06791f;
-	border-left: 3px red solid;
-	font-weight: 700;
-	font-size: 15px;
+.featured .navbar-header{
+	width: 100%;
 }
-
-
-.featured .navbar-collapse{
-	border-top: 0;
-	-webkit-box-shadow: 0;
-	box-shadow: inset 0 0 0;
-}
-
-.navbar-toggle.featured {
-	border:0;
-}
-
-.navbar-toggle.featured:hover {
-	background-color: transparent;
-}
-
 
 @media (min-width: 768px){
 	.navbar.featured {
