@@ -8,7 +8,10 @@ self.addEventListener('install', function (event) {
 	event.waitUntil(
 		caches.open(staticCacheName).then(function (cache) {
 			return cache.addAll([
-				'index.html'
+				'index.html',
+				'js/app.min.js',
+				'css/app.min.css',
+				'images/favicon.ico'
 				]);
 		})
 	);

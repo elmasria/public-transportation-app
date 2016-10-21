@@ -2,7 +2,7 @@
   "name": "Public Transportation",
   "short_name": "PT",
   "theme_color": "#ff7e00",
-  "background_color": "#ff7e00",
+  "background_color": "#e4bb93",
   "display": "standalone",
   "Scope": "/",
   "start_url": "/dist/",
