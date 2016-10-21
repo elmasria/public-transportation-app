@@ -1,0 +1,30 @@
+<!-- Modal -->
+<div id="newTripModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content featured">
+			<div class="modal-header featured">
+				<h4 class="modal-title ">Generate your Trip</h4>
+			</div>
+			<form name="generateTripForm" id="generateTripForm">
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="departure">Departure</label>
+						<select class="form-control" name="departure" id="departure"
+						ng-options="option.Station for option in departureOptions.availableOptions track by option.Station"
+						ng-model="departureOptions.selectedOption"></select>
+					</div>
+					<div class="form-group">
+						<label for="Arrival">Arrival</label>
+						<select class="form-control" name="arrival" id="arrival"
+						ng-options="option.Station for option in arrivalOptions.availableOptions track by option.Station"
+						ng-model="arrivalOptions.selectedOption"></select>
+					</div>
+				</div>
+				<div class="modal-footer featured">
+					<button type="button" class="btn btn-default featured" ng-click="mainCtrl.generateTrip()">Generate</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
