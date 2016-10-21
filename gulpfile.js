@@ -59,22 +59,27 @@ paths.angularMainCtrl = paths.source + 'js/controllers/main.js';
 // Services
 paths.angularConstants = paths.source + 'js/services/constants.js';
 paths.angularToastService = paths.source + 'js/services/toast.js';
+paths.angularHTTPService = paths.source + 'js/services/http-service.js';
 
 // Directives
+paths.angularModalDirective = paths.source + 'js/directives/modal-directive.js';
 
 
 // HTML
 paths.mainHtml = paths.source  +'index.html';
-
+paths.generateNewTripModalHtml = paths.source  +'templates/generate-trip-modal.html';
 // SCSS
+paths.mainSCSS = paths.source  +'scss/main.scss';
 paths.toastSCSS = paths.source  +'scss/toast.scss';
 paths.navSCSS = paths.source  +'scss/nav.scss';
+paths.modalDirectiveSCSS = paths.source  +'scss/modal-directive.scss';
 
 // Static
 paths.manifest = paths.source + 'manifest.json';
 paths.favicon = paths.source + 'images/favicon.ico';
 paths.images = paths.source + 'images/**/*';
-paths.scss = paths.source + 'scss/**/*.scss'
+paths.scss = paths.source + 'scss/**/*.scss';
+paths.stations = paths.source + 'data/stations.json'
 
 
 gulp.task('default',['copy:static', 'copy:images', 'minify:html','minify:html-templates', 'min:css', 'min:js', 'watch', 'server']);
@@ -93,10 +98,20 @@ gulp.task('server', function () {
 
 gulp.task('watch', function () {
 	gulp.watch(paths.mainHtml, ['minify:html']);
-	gulp.watch(paths.angularToastService, ['min:js']);
+
+	gulp.watch([
+		paths.angularToastService,
+		paths.angularModalDirective,
+		paths.angularHTTPService], ['min:js']);
+
 	gulp.watch(paths.angularMainCtrl, ['min:js']);
+
+	gulp.watch(paths.generateNewTripModalHtml, ['minify:html-templates']);
 	gulp.watch(paths.toastSCSS, ['min:css']);
-	gulp.watch(paths.navSCSS, ['min:css']);
+	gulp.watch([
+		paths.navSCSS,
+		paths.modalDirectiveSCSS], ['min:css']);
+	gulp.watch(paths.mainSCSS, ['min:css']);
 });
 
 gulp.task('clean', function () {
@@ -107,6 +122,10 @@ gulp.task('clean', function () {
 gulp.task('copy:static', function(){
 	gulp.src([paths.favicon, paths.manifest])
 	.pipe(gulp.dest(paths.webroot));
+
+
+	gulp.src([paths.stations])
+	.pipe(gulp.dest(paths.webroot + 'data'));
 });
 
 gulp.task('copy:images', function () {
@@ -123,7 +142,7 @@ gulp.task('minify:html', function() {
 });
 
 gulp.task('minify:html-templates', function() {
-	return gulp.src([])
+	return gulp.src([paths.generateNewTripModalHtml])
 	.pipe(removeHtmlComments())
 	.pipe(htmlmin({collapseWhitespace: true}))
 	.pipe(gulp.dest(paths.templatesDest))
@@ -142,7 +161,9 @@ gulp.task('min:js', function() {
 		paths.appRoutes,
 		paths.angularConstants,
 		paths.angularMainCtrl,
-		paths.angularToastService ])
+		paths.angularToastService,
+		paths.angularHTTPService,
+		paths.angularModalDirective ])
 	.pipe(concat(paths.jsDest +'/app.min.js'))
 	//.pipe(strip())
 	//.pipe(uglify())
