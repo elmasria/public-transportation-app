@@ -64,7 +64,7 @@
 			if (!navigator.serviceWorker) {
 				toast.show("sw is not supported");
 			} else {
-				navigator.serviceWorker.register('/dist/sw.js',  {scope: '/dist/'}).then(function (reg) {
+				navigator.serviceWorker.register('/public-transportation-app/dist/sw.js',  {scope: '/public-transportation-app/dist/'}).then(function (reg) {
 					if (reg.waiting) {
 						controller._updateReady(reg.waiting);
 					}

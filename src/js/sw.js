@@ -1,4 +1,4 @@
-var staticCacheName = 'public-transportation-app-static-v1',
+var staticCacheName = 'public-transportation-app-static-v10',
 allCaches = [
 staticCacheName
 ];
@@ -7,7 +7,7 @@ self.addEventListener('install', function (event) {
 	event.waitUntil(
 		caches.open(staticCacheName).then(function (cache) {
 			return cache.addAll([
-				'/dist/',
+				'/public-transportation-app/dist/',
 				'index.html',
 				'templates/generate-trip-modal.html',
 				'templates/trip-schedule.html',

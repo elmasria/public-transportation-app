@@ -13,14 +13,21 @@ var gulp = require('gulp')
 	rename = require('gulp-rename'),
 	clean = require('gulp-clean'),
 	browserSync = require('browser-sync').create(),
-	reload = browserSync.reload;
-
+	reload = browserSync.reload,
+	development = true;
 
 var paths = {
-	webroot: './dist/',
 	node_module: './node_modules/',
 	source :'./src/'
 };
+
+if (development) {
+
+	paths.webroot= './public-transportation-app/dist/';
+}else{
+
+	paths.webroot= './dist/';
+}
 
 paths.templatesDest = paths.webroot + 'templates';
 paths.jsDest = paths.webroot + 'js';

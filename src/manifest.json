@@ -4,8 +4,8 @@
   "theme_color": "#ff7e00",
   "background_color": "#e4bb93",
   "display": "standalone",
-  "Scope": "/",
-  "start_url": "/dist/",
+  "Scope": "/public-transportation-app/dist/",
+  "start_url": "/public-transportation-app/dist/",
   "icons": [
     {
       "src": "images/icons/icon-72x72.png",
