@@ -4,10 +4,13 @@ An application that allows users to select a departure and arrival train station
 
 ## Installation
 
-
+1. clone repository or download as zip file
+    * git clone ``` https://github.com/elmasria/public-transportation-app.git ```
+2. navigate to repository ``` cd public-transportation-ap ```
+3. install npm run ``` npm install ```
 
 ## Run Application
 
-
-
-### References
+1. Run local server and get the production code, run: ``` gulp ```
+2. You may need to clean the production code repository, run ``` gulp clean ```
+3. Open browser http://localhost:2109/
