@@ -44,6 +44,9 @@ paths.bootstrapCSS = paths.node_module + 'bootstrap/dist/css/bootstrap.css';
 paths.bootstrapJS = paths.node_module + 'bootstrap/dist/js/bootstrap.js';
 paths.bootstrapFonts = paths.node_module + 'bootstrap/dist/fonts/**/*';
 
+// Indec DB
+paths.indexDB = paths.source + 'vendors/indexeddb-promised/idb.js';
+
 
 /// Project
 
@@ -60,6 +63,7 @@ paths.angularMainCtrl = paths.source + 'js/controllers/main.js';
 paths.angularConstants = paths.source + 'js/services/constants.js';
 paths.angularToastService = paths.source + 'js/services/toast.js';
 paths.angularHTTPService = paths.source + 'js/services/http-service.js';
+paths.angularIndexDbService = paths.source + 'js/services/indexeddb-service.js';
 
 // Directives
 paths.angularModalDirective = paths.source + 'js/directives/modal-directive.js';
@@ -107,6 +111,7 @@ gulp.task('watch', function () {
 		paths.angularToastService,
 		paths.angularModalDirective,
 		paths.angularHTTPService,
+		paths.angularIndexDbService,
 		paths.angularTripScheduleDirective], ['min:js']);
 
 	gulp.watch(paths.angularMainCtrl, ['min:js']);
@@ -169,6 +174,7 @@ gulp.task('minify:html-templates', function() {
 
 gulp.task('min:js', function() {
 	return gulp.src([paths.jquery,
+		paths.indexDB,
 		paths.bootstrapJS,
 		paths.angular,
 		paths.angularRoute,
@@ -181,6 +187,7 @@ gulp.task('min:js', function() {
 		paths.angularMainCtrl,
 		paths.angularToastService,
 		paths.angularHTTPService,
+		paths.angularIndexDbService,
 		paths.angularModalDirective,
 		paths.angularTripScheduleDirective ])
 	.pipe(concat(paths.jsDest +'/app.min.js'))

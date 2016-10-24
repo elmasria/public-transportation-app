@@ -18,7 +18,7 @@
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="#/">{{mainCtrl.pageTitle}}</a>
-				<a href="#/" data-toggle="modal" data-target="#newTripModal"  onClick="event.preventDefault()" class="navbar-brand pull-right">New Trip</a>
+				<a href="#/" ng-hide="mainCtrl.offline" data-toggle="modal" data-target="#newTripModal"  onClick="event.preventDefault()" class="navbar-brand pull-right">New Trip</a>
 			</div>
 		</div>
 	</nav>
@@ -29,10 +29,11 @@
 		<trip-schedule></trip-schedule>
 	</main>
 	<generate-trip-modal></generate-trip-modal>
-	<div class="container-fluid footer-notification" ng-if="mainCtrl.newVersion">
+	<div class="container-fluid footer-notification" ng-if="mainCtrl.footerMessge">
 		<div class="row">
-			<div class="col-xs-6"><span class="footer-notification-message">New version Available</span></div>
-			<div class="col-xs-6 text-right"><button ng-click="mainCtrl.refresh()" class="btn-refresh">Refresh</button></div>
+			<div class="col-xs-6"><span class="footer-notification-message">{{mainCtrl.message}}</span></div>
+			<div class="col-xs-6 text-right" ng-if="mainCtrl.btnRefresh"><button ng-click="mainCtrl.refresh()" class="btn-refresh">Refresh</button></div>
+			<div class="col-xs-6 text-right" ng-if="!mainCtrl.btnRefresh"><button ng-click="mainCtrl.dismiss()" class="btn-refresh">Dismiss</button></div>
 		</div>
 	</div>
 </body>

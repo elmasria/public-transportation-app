@@ -1,5 +1,4 @@
-'use strict';
-var staticCacheName = 'public-transportation-app-static-v0',
+var staticCacheName = 'public-transportation-app-static-v1',
 allCaches = [
 staticCacheName
 ];
@@ -8,6 +7,7 @@ self.addEventListener('install', function (event) {
 	event.waitUntil(
 		caches.open(staticCacheName).then(function (cache) {
 			return cache.addAll([
+				'/dist/',
 				'index.html',
 				'templates/generate-trip-modal.html',
 				'templates/trip-schedule.html',
@@ -19,6 +19,7 @@ self.addEventListener('install', function (event) {
 				'fonts/glyphicons-halflings-regular.ttf',
 				'fonts/glyphicons-halflings-regular.woff',
 				'fonts/glyphicons-halflings-regular.woff2',
+				'manifest.json'
 				]);
 		})
 		);
