@@ -5,3 +5,45 @@ body{
 	width: 100%;
 	text-align: center;
 }
+
+.trip-schedule-header {
+	color: #06791f;
+	font-size: large;
+	font-weight: 700;
+}
+
+.panel-default.featured {
+	border-color: #06791f;
+}
+
+.panel-default.featured>.panel-heading{
+	color: #06791f;
+	background-color: #FF7F00;
+	border-color: #06791f;
+}
+.footer-notification{
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+	padding: 7px 0px;
+	background: #333;
+}
+
+.btn-refresh{
+	border: 0;
+	background: transparent;
+	color: #06791f;
+	font-weight: bold;
+	font-size: medium;
+	padding: 10px;
+}
+
+.footer-notification-message{
+	padding: 10px;
+	color: #fff;
+	font-size: medium;
+	display: block;
+}
+.footer-notification row {
+	margin: 0;
+}

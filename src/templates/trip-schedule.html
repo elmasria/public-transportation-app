@@ -1,0 +1,32 @@
+<section ng-repeat="journey in mainCtrl.tripPlan" class="container">
+	<div class="row trip-schedule-header">
+		<div class="col-xs-12">
+			<i class="glyphicon glyphicon-pushpin"></i> <span> Trip Number {{$index + 1}} -  {{journey.legs.length}}<span> {{mainCtrl.formatPlural(journey.legs.length)}}</span></span>
+		</div>
+	</div>
+	<div>
+		<div class="panel panel-default featured">
+			<div class="panel-heading">Estimated Time: {{journey.duration}} min</div>
+			<div class="panel-body">
+				<p>Departure {{journey.legs[0].departurePoint.commonName}} at {{mainCtrl.formatTime(journey.legs[0].departureTime)}}. Arrival {{journey.legs[journey.legs.length - 1].arrivalPoint.commonName}} at {{mainCtrl.formatTime(journey.legs[journey.legs.length - 1].arrivalTime)}}.</p>
+			</div>
+			<table class="table">
+				<tr>
+					<td  class="text-center"><i class="glyphicon glyphicon-time"></td>
+					<td  class="text-center"><i class="glyphicon glyphicon-screenshot"></i></td>
+					<td  class="text-center" ><i class="glyphicon glyphicon-time"></i></td>
+					<td  class="text-center"><i class="glyphicon glyphicon-flag"></i></td>
+					<td  class="text-center"><i class="glyphicon glyphicon-time"></i></td>
+				</tr>
+				<tr ng-repeat="step in journey.legs">
+				<td >{{step.duration}} min</td>
+					<td >{{step.departurePoint.commonName}}</td>
+					<td >{{mainCtrl.formatTime(step.departureTime)}}</td>
+					<td >{{step.arrivalPoint.commonName}}</td>
+					<td >{{mainCtrl.formatTime(step.arrivalTime)}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+</section>
