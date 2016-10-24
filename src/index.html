@@ -23,10 +23,17 @@
 		</div>
 	</nav>
 	<main>
-		<div class="message">
+		<div class="message" ng-if="mainCtrl.noResults">
   			<strong>No schedule!</strong> Add new one :).
 		</div>
+		<trip-schedule></trip-schedule>
 	</main>
 	<generate-trip-modal></generate-trip-modal>
+	<div class="container-fluid footer-notification" ng-if="mainCtrl.newVersion">
+		<div class="row">
+			<div class="col-xs-6"><span class="footer-notification-message">New version Available</span></div>
+			<div class="col-xs-6 text-right"><button ng-click="mainCtrl.refresh()" class="btn-refresh">Refresh</button></div>
+		</div>
+	</div>
 </body>
 </html>

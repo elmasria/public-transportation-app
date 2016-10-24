@@ -25,7 +25,7 @@ var paths = {
 paths.templatesDest = paths.webroot + 'templates';
 paths.jsDest = paths.webroot + 'js';
 paths.cssDest = paths.webroot + 'css';
-paths.fontDest = paths.cssDest + '/fonts';
+paths.fontDest = paths.webroot + '/fonts';
 paths.imagDest = paths.webroot + 'images';
 
 /// Vendors
@@ -42,7 +42,7 @@ paths.jquery = paths.node_module + 'jquery/dist/jquery.js';
 // Bootstrap
 paths.bootstrapCSS = paths.node_module + 'bootstrap/dist/css/bootstrap.css';
 paths.bootstrapJS = paths.node_module + 'bootstrap/dist/js/bootstrap.js';
-paths.bootstrapFonts = paths.node_module + 'bootstrap/dist/fonts/*';
+paths.bootstrapFonts = paths.node_module + 'bootstrap/dist/fonts/**/*';
 
 
 /// Project
@@ -63,11 +63,15 @@ paths.angularHTTPService = paths.source + 'js/services/http-service.js';
 
 // Directives
 paths.angularModalDirective = paths.source + 'js/directives/modal-directive.js';
+paths.angularTripScheduleDirective = paths.source + 'js/directives/trip-schedule.js';
 
 
 // HTML
 paths.mainHtml = paths.source  +'index.html';
 paths.generateNewTripModalHtml = paths.source  +'templates/generate-trip-modal.html';
+paths.TripScheduleHtml = paths.source  +'templates/trip-schedule.html';
+
+
 // SCSS
 paths.mainSCSS = paths.source  +'scss/main.scss';
 paths.toastSCSS = paths.source  +'scss/toast.scss';
@@ -102,16 +106,20 @@ gulp.task('watch', function () {
 	gulp.watch([
 		paths.angularToastService,
 		paths.angularModalDirective,
-		paths.angularHTTPService], ['min:js']);
+		paths.angularHTTPService,
+		paths.angularTripScheduleDirective], ['min:js']);
 
 	gulp.watch(paths.angularMainCtrl, ['min:js']);
 
-	gulp.watch(paths.generateNewTripModalHtml, ['minify:html-templates']);
+	gulp.watch([
+		paths.generateNewTripModalHtml,
+		paths.TripScheduleHtml], ['minify:html-templates']);
 	gulp.watch(paths.toastSCSS, ['min:css']);
 	gulp.watch([
 		paths.navSCSS,
-		paths.modalDirectiveSCSS], ['min:css']);
-	gulp.watch(paths.mainSCSS, ['min:css']);
+		paths.modalDirectiveSCSS,
+		paths.mainSCSS], ['min:css']);
+	gulp.watch([paths.sw], ['copy:static']);
 });
 
 gulp.task('clean', function () {
@@ -123,9 +131,17 @@ gulp.task('copy:static', function(){
 	gulp.src([paths.favicon, paths.manifest])
 	.pipe(gulp.dest(paths.webroot));
 
+	gulp.src([paths.bootstrapFonts])
+	.pipe(gulp.dest(paths.fontDest));
+
 
 	gulp.src([paths.stations])
 	.pipe(gulp.dest(paths.webroot + 'data'));
+
+
+	gulp.src([paths.sw])
+	.pipe(gulp.dest(paths.webroot))
+	.pipe(reload({stream: true}));
 });
 
 gulp.task('copy:images', function () {
@@ -142,7 +158,9 @@ gulp.task('minify:html', function() {
 });
 
 gulp.task('minify:html-templates', function() {
-	return gulp.src([paths.generateNewTripModalHtml])
+	return gulp.src([
+		paths.generateNewTripModalHtml,
+		paths.TripScheduleHtml])
 	.pipe(removeHtmlComments())
 	.pipe(htmlmin({collapseWhitespace: true}))
 	.pipe(gulp.dest(paths.templatesDest))
@@ -163,7 +181,8 @@ gulp.task('min:js', function() {
 		paths.angularMainCtrl,
 		paths.angularToastService,
 		paths.angularHTTPService,
-		paths.angularModalDirective ])
+		paths.angularModalDirective,
+		paths.angularTripScheduleDirective ])
 	.pipe(concat(paths.jsDest +'/app.min.js'))
 	//.pipe(strip())
 	//.pipe(uglify())
@@ -191,7 +210,8 @@ gulp.task('min:css', function () {
 	mergedStream = merge(cssStream, scssStream)
 		.pipe(concat(paths.cssDest + '/app.min.css'))
 		//.pipe(cssmin())
-		.pipe(gulp.dest('.'));
+		.pipe(gulp.dest('.'))
+		.pipe(reload({stream: true}));
 
 
 	return mergedStream;

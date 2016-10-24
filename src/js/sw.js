@@ -9,12 +9,19 @@ self.addEventListener('install', function (event) {
 		caches.open(staticCacheName).then(function (cache) {
 			return cache.addAll([
 				'index.html',
+				'templates/generate-trip-modal.html',
+				'templates/trip-schedule.html',
 				'js/app.min.js',
 				'css/app.min.css',
-				'images/favicon.ico'
+				'images/favicon.ico',
+				'fonts/glyphicons-halflings-regular.eot',
+				'fonts/glyphicons-halflings-regular.svg',
+				'fonts/glyphicons-halflings-regular.ttf',
+				'fonts/glyphicons-halflings-regular.woff',
+				'fonts/glyphicons-halflings-regular.woff2',
 				]);
 		})
-	);
+		);
 });
 
 self.addEventListener('activate', function (event) {
@@ -27,7 +34,7 @@ self.addEventListener('activate', function (event) {
 				}).map(function (cacheName) {
 					return caches.delete(cacheName);
 				})
-				);
+			);
 		})
 	);
 });
@@ -37,7 +44,8 @@ self.addEventListener('fetch', function (event) {
 	event.respondWith(
 		caches.match(event.request).then(function (response) {
 			return response || fetch(event.request);
-		}));
+		})
+	);
 });
 
 self.addEventListener('message', function (event) {
